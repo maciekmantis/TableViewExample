@@ -10,9 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var data: String[] = ["john", "jack", "joe", "julie"]
-    
-    var tableView: UITableView = UITableView()
+    let data: String[] = ["john", "jack", "joe", "julie"]
+    let tableView: UITableView = UITableView()
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return data.count
@@ -28,6 +27,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         println("Hello \(self.data[indexPath.row])!")
+        self.navigationController.pushViewController(DetailViewController(), animated: true)
     }
     
     func configureControls() {
@@ -43,6 +43,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addConstraints(topTableViewConstraints)
     }
     
+    //TODO: tableView full screen
+//    override func viewWillAppear(animated: Bool) {
+//        self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +55,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
