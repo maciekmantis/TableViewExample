@@ -12,17 +12,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let data: String[] = ["john", "jack", "joe", "julie"]
     let tableView: UITableView = UITableView()
+//    let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        
         var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+            cell.selectionStyle = UITableViewCellSelectionStyle.Blue
+            println("!!!!!!!!!!!!!!! CELL NEW")
+        }
         
-        cell.textLabel.text = self.data[indexPath.row]
+        cell.setTranslatesAutoresizingMaskIntoConstraints(false)
         
+        cell.textLabel.text = "AAAAA"
+        cell.detailTextLabel.text = "bbbbbb"
+        let path: String = NSBundle.mainBundle().pathForResource("bruce", ofType: "jpg")
+        let image: UIImage = UIImage(contentsOfFile: path)
+        cell.imageView.image = image
         return cell
+        
+//        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+//        
+//        cell.textLabel.text = self.data[indexPath.row]
+//        
+//        return cell
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
@@ -31,14 +49,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func configureControls() {
+        
+        self.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
         self.view.addSubview(self.tableView)
         self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         var metrics = [
-            "topMargin":self.navigationController.navigationBar.frame.height,
+            "topMargin":0,
             "leftMargin": 0,
             "width": self.view.frame.width,
-            "height": self.view.frame.size.height - navigationController.navigationBar.frame.height]
+            "height": self.view.frame.size.height]
         
         var trailingTableViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-leftMargin-[tableView(width)]-|", options: nil, metrics: metrics, views: ["tableView": tableView])
         //        self.view.addConstraints(topUsernameFieldConstraints)
@@ -60,6 +81,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        tableView.frame = CGRectMake(0, self.navigationController.navigationBar.frame.height, self.view.frame.width, self.view.frame.size.height - navigationController.navigationBar.frame.height)
 //    }
     
+    override func viewWillAppear(animated: Bool) {
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         configureControls()
         tableView.delegate = self
         tableView.dataSource = self
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         // Do any additional setup after loading the view, typically from a nib.
     }
