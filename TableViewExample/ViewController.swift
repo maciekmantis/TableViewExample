@@ -34,19 +34,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(self.tableView)
         self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        var trailingTableViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[tableView]-|", options: nil, metrics: nil, views: ["tableView": tableView])
+        var metrics = [
+            "topMargin":self.navigationController.navigationBar.frame.height,
+            "leftMargin": 0,
+            "width": self.view.frame.width,
+            "height": self.view.frame.size.height - navigationController.navigationBar.frame.height]
+        
+        var trailingTableViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-leftMargin-[tableView(width)]-|", options: nil, metrics: metrics, views: ["tableView": tableView])
         //        self.view.addConstraints(topUsernameFieldConstraints)
         self.view.addConstraints(trailingTableViewConstraints)
         //        self.tableView.borderStyle = UITextBorderStyle.RoundedRect
         
-        var topTableViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-[tableView]-|", options: nil, metrics: nil, views: ["tableView": tableView])
+        var topTableViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-topMargin-[tableView(height)]-|", options: nil, metrics: metrics, views: ["tableView": tableView])
         self.view.addConstraints(topTableViewConstraints)
+        
+        let addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: nil)
+        self.navigationItem.title = "List of sth"
+        self.navigationItem.rightBarButtonItem = addButton
+        
     }
     
-    //TODO: tableView full screen
-//    override func viewWillAppear(animated: Bool) {
-//        self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+    // NIE TRZEBA BO ZALATWIAJA TO CONSTRAINTY
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        tableView.frame = CGRectMake(0, self.navigationController.navigationBar.frame.height, self.view.frame.width, self.view.frame.size.height - navigationController.navigationBar.frame.height)
 //    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
