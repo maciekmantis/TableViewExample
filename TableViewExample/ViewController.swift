@@ -20,12 +20,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         
-        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        var cell:CustomTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as CustomTableViewCell
+        
+//        println(cell)
+        
+//
         if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+//            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+            cell = CustomTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
             cell.selectionStyle = UITableViewCellSelectionStyle.Blue
             println("!!!!!!!!!!!!!!! CELL NEW")
         }
+        
         
         cell.setTranslatesAutoresizingMaskIntoConstraints(false)
         
@@ -35,12 +41,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let image: UIImage = UIImage(contentsOfFile: path)
         cell.imageView.image = image
         return cell
-        
-//        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
-//        
-//        cell.textLabel.text = self.data[indexPath.row]
-//        
-//        return cell
+
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
@@ -82,16 +83,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //    }
     
     override func viewWillAppear(animated: Bool) {
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Tworzy tylko zwykla cell, nie subtitle czy inna
+        self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         
         configureControls()
         tableView.delegate = self
         tableView.dataSource = self
-//        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+//        // Tworzy tylko zwykla cell, nie subtitle czy inna
+//        self.tableView.registerClass(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         
         // Do any additional setup after loading the view, typically from a nib.
     }
